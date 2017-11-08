@@ -9,15 +9,20 @@ class Scheduler {
     static int preemptive;
     static int quantum;
     static Process[] processes;
+    static String fileName;
 
     public static void main(String[] args) throws IOException {
-        processes = getProcesses();
+        Scanner kb = new Scanner(System.in);
+        System.out.println("Welcome! Please enter a data file (input1.data/input2.data/input3.data)");
+        fileName = kb.next();
+        kb.close();
+        processes = getProcesses(fileName);
         Dispatcher.roundRobin(processes);
         System.out.println("Scheduling Completed!");
     }
 
-    public static Process[] getProcesses() throws FileNotFoundException {
-        Scanner scanner = new Scanner(new File("input.data"));
+    public static Process[] getProcesses(String fileName) throws FileNotFoundException {
+        Scanner scanner = new Scanner(new File(fileName));
         Queue<Process> queue = new LinkedList<>();
         int arrival;
         int burst;
@@ -25,8 +30,6 @@ class Scheduler {
         int i=0;
 
         numOfProcesses = scanner.nextInt();
-        
-
         processes = new Process[numOfProcesses];
 
         preemptive = scanner.nextInt();
